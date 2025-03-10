@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { USERS, User } from '../user';
 import { UserService } from '../user.service';
@@ -11,27 +11,30 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    standalone: true,
-    imports: [MatCardModule, FormsModule, MatFormFieldModule, MatSelectModule, NgFor, MatOptionModule, MatButtonModule]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatButtonModule,
+  ],
 })
 export class LoginComponent implements OnInit {
-
   users = USERS;
   selectedUser?: User;
 
-  constructor(public user:UserService, public route: Router) { }
+  constructor(public user: UserService, public route: Router) {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
-  login()  {
+  login() {
     console.log(this.selectedUser);
 
-    if(this.selectedUser)
-      this.user.connect(this.selectedUser);
+    if (this.selectedUser) this.user.connect(this.selectedUser);
   }
 }
