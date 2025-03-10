@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import * as signalR from "@microsoft/signalr"
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     standalone: true,
-    imports: [NgIf, MatButtonModule]
+    imports: [MatButtonModule]
 })
 export class AppComponent {
   title = 'Pizza Hub';
