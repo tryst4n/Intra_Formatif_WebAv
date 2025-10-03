@@ -32,8 +32,20 @@ export class AppComponent {
       .withUrl('http://localhost:5282/hubs/pizza')
       .build();
 
+      this.hubConnection!.on('UpdateNbUsers', (data: number) => {
+        // data a le même type que ce qui a été envoyé par le serveur
+        this.nbUsers = data;
+        console.log(data);
+    });
+
     // TODO: Mettre isConnected à true seulement une fois que la connection au Hub est faite
-    this.isConnected = true;
+     this.hubConnection
+    .start()
+    .then(() => {
+      console.log('Connecté au hub.');
+      this.isConnected = true; // ✅ Seulement après une connexion réussie
+    })
+    .catch(err => console.error('Erreur de connexion au hub:', err));
   }
 
   selectChoice(selectedChoice:number) {
