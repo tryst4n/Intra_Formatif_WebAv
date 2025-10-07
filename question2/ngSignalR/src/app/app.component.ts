@@ -38,6 +38,23 @@ export class AppComponent {
         console.log(data);
     });
 
+    this.hubConnection.on('UpdateMoney', (money: number) => {
+      this.money = money;
+      console.log("Money updated:", money);
+    });
+
+    this.hubConnection.on('UpdateNbPizzasAndMoney', (nbPizzas: number, money: number) => {
+      this.nbPizzas = nbPizzas;
+      this.money = money;
+      console.log("NbPizzas and Money updated:", nbPizzas, money);
+    });
+
+    this.hubConnection.on('UpdatePizzaPrice', (price: number) => {
+      this.pizzaPrice = price;
+      console.log("Pizza price updated:", price);
+    });
+
+
     // TODO: Mettre isConnected à true seulement une fois que la connection au Hub est faite
      this.hubConnection
     .start()
@@ -50,15 +67,31 @@ export class AppComponent {
 
   selectChoice(selectedChoice:number) {
     this.selectedChoice = selectedChoice;
+    if (this.isConnected && this.hubConnection) {
+      this.hubConnection.invoke('SelectChoice', selectedChoice)
+        .catch(err => console.error(err));
+    }
   }
 
   unselectChoice() {
+    if (this.selectedChoice !== -1 && this.isConnected && this.hubConnection) {
+      this.hubConnection.invoke('UnselectChoice', this.selectedChoice)
+        .catch(err => console.error(err));
+    }
     this.selectedChoice = -1;
   }
 
   addMoney() {
+    if (this.selectedChoice !== -1 && this.isConnected && this.hubConnection) {
+      this.hubConnection.invoke('AddMoney', this.selectedChoice)
+        .catch(err => console.error(err));
+    }
   }
 
   buyPizza() {
+    if (this.selectedChoice !== -1 && this.isConnected && this.hubConnection) {
+      this.hubConnection.invoke('BuyPizza', this.selectedChoice)
+        .catch(err => console.error(err));
+    }
   }
 }
